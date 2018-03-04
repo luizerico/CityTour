@@ -1,0 +1,9 @@
+{
+  "name": "city-tour",
+  "version": "0.0.0",
+  "description": "CityTour",
+  "main": "server.js",
+  "author": {
+    "name": "luize"
+  }
+}
