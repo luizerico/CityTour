@@ -1,0 +1,25 @@
+﻿<% include header %>
+<% include nav.ejs %>
+<div style="border: 1px solid #cccccc; padding: 20px; align-items:center; margin:5% 20%;">
+    <h1><%= title %></h1>
+    <form method="post" action="/signup">
+        <div class="form-group">
+            <label>First Name: </label>
+            <input type="text" size="30" placeholder="Enter your first name" name="firstName" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Last Name: </label>
+            <input type="text" size="30" placeholder="Enter your last name" name="lastName" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Username: </label>
+            <input type="text" size="30" placeholder="Enter your user name" name="username" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>Password: </label>
+            <input type="password" size="30" placeholder="Enter your password" name="password" class="form-control">
+        </div>
+        <input type="submit" value="Submit" name="submit" class="btn btn-primary">
+    </form>
+</div>
+<% include footer.ejs %>
