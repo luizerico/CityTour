@@ -42,7 +42,7 @@ module.exports = function () {
     // Configure the flash messages middleware
     app.use(flash());
     app.use(passport.initialize()); //bootstrapping the Passport module
-    app.use(passport.session()); //keep track of your user's session
+    app.use(passport.session());    //keep track of your user's session
 
     // Load the route files
     require('../app/routes/index.server.routes')(app);

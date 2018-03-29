@@ -15,8 +15,8 @@ exports.list = function (req, res, next) {
         if (err) {
             return next(err);
         } else {
-            //res.render('picture_list', { pictures: pictures });
-            res.json(pictures);
+            res.render('picture_list', { pictures: pictures });
+            //res.json(pictures);
         }
     });
 }
@@ -55,7 +55,7 @@ exports.insert = function (req, res, next) {
 
     });
 
-    res.render('picture_list', {});
+    res.redirect("/list");
 }
 
 exports.delete = function (req, res, next) {

@@ -40,11 +40,12 @@ exports.signup = function (req, res, next) { //uses user model to create new //u
         user.provider = 'local';
         user.save(function (err) {
             if (err) {
+                console.log("error...", getErrorMessage(err));
                 var message = getErrorMessage(err);
                 req.flash('error', message);
                 return res.redirect('/signup');
             }
-            req.login(user, function (err) { //req.login is Passport method
+            req.login(user, function (err) { //req.login is Passport method                
                 if (err) return next(err);
                 return res.redirect('/');
             });

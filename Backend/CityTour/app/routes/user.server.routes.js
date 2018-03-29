@@ -1,11 +1,19 @@
-﻿module.exports = function (app) {
-    var user = require('../controllers/user.server.controller');
+﻿const users = require('../controllers/user.server.controller');
+const passport = require('passport');
+
+module.exports = function (app) {   
 
     app.route('/signin')
-        .get(user.renderSignin)
-        .post(user.signin);
+        .get(users.renderSignin)
+        .post(passport.authenticate('local', {
+            successRedirect: '/',
+            failureRedirect: '/signin',
+            failureFlash: true
+        }));
+
     app.route('/signup')
-        .get(user.renderSignup)
-        .post(user.signup);
-    app.get('/signout', user.signout);
+        .get(users.renderSignup)
+        .post(users.signup);
+
+    app.get('/signout', users.signout);
 }

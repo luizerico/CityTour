@@ -4,20 +4,18 @@
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 // load the databsee module
-var mongoose = require('./config/mongoose');
-var passport = require('./config/passport');
+const configureMongoose = require('./config/mongoose');
+const configureExpress = require('./config/express');
+const configurePassport = require('./config/passport');
 
 // create the database connection
-const db = mongoose();
-
-// Load the 'express' module
-const configureExpress = require('./config/express');
+const db = configureMongoose();
 
 // Create a new Express application instance
 const app = configureExpress();
 
 // Create the passport middleware
-const configurePassport = require('./config/passport');
+const passport = configurePassport();
 
 // Use the Express application instance to listen to the '3000' port
 app.listen(3030);
