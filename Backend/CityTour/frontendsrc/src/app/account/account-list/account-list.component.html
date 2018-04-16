@@ -1,0 +1,30 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">First Name</th>
+      <th scope="col">Last Name</th>
+      <th scope="col">email</th>
+      <th scope="col">Username</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let account of accounts">
+      <td>{{ account._id }}</td>
+      <td>{{ account.firstName }}</td>
+      <td>{{ account.lastName }}</td>
+      <td>{{ account.email }}</td>
+      <td>{{ account.username }}</td>
+      <td><span *ngIf="account.status == 1">Blocked</span></td>
+      <td>
+        <button class="btn btn-sm btn-info" [routerLink]="['/account/edit/' + account._id]">Edit</button>
+        <button class="btn btn-sm btn-info" [routerLink]="['/account/view/' + account._id]">View</button>
+        <button class="btn btn-sm btn-warning" (click)="blockAccount(account._id);" *ngIf="account.status != 1">Block</button>
+        <button class="btn btn-sm btn-warning" (click)="unblockAccount(account._id);" *ngIf="account.status == 1">Unblock</button>
+        <button class="btn btn-sm btn-danger" (click)="deleteAccount(account._id);">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>

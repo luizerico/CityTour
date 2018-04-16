@@ -10,11 +10,11 @@ module.exports = function (app) {
             cb(null, Date.now() + '_' + file.originalname)
         },
         destination: function (req, file, cb) {
-            cb(null, __dirname + '../../../public/uploads/')
+            cb(null, __dirname + '../../../uploads/uploads/')
         },
     })
     var uploading = multer({
-        // dest: __dirname + '../../../public/uploads/',
+        // dest: __dirname + '../../../uploads/uploads',
         storage: storage,
         limits: {
             fileSize: 10000000
@@ -29,8 +29,15 @@ module.exports = function (app) {
         }
     });
 
-    app.get('/', picture.render);
-    app.get('/list', picture.list);
-    app.get('/create', picture.create);
-    app.post('/create', uploading.any(), picture.insert);
+
+    // Api Routes for the pictures model
+    app.route('/api/v1/pictures')
+        .get(picture.list)
+        .post(uploading.any(), picture.insert);
+    app.route('/api/v1/pictures/:id')
+        .get(picture.findOne)
+        .put(picture.update)
+        .delete(picture.delete);
+    app.route('/api/v1/pictures/delete/:id')
+        .put(picture.update);
 }

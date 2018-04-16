@@ -3,11 +3,35 @@ import { CommonModule } from '@angular/common';
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
+import { AccountListComponent } from './account-list/account-list.component';
+import { AccountEditComponent } from './account-edit/account-edit.component';
+import { RouterModule } from '@angular/router';
+import { AccountService } from './account.service';
+import { FormsModule } from '@angular/forms';
+import { AccountViewComponent } from './account-view/account-view.component';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule,
+    FormsModule
   ],
-  declarations: [SigninComponent, SignupComponent, ProfileComponent]
+  exports: [
+    SigninComponent,
+    SignupComponent,
+    ProfileComponent,
+    AccountListComponent
+  ],
+  declarations: [
+    SigninComponent,
+    SignupComponent,
+    ProfileComponent,
+    AccountListComponent,
+    AccountEditComponent,
+    AccountViewComponent
+  ],
+  providers: [
+    AccountService
+  ]
 })
 export class AccountModule { }

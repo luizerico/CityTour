@@ -72,3 +72,55 @@ exports.renderSignin = function (req, res, next) {
 exports.signin = function (req, res, next) {
     res.redirect("/");
 }
+
+exports.list = (req, res, next) => {
+    console.log("Listing users...");
+
+    // List all users with deleted not equal to 1
+    User.find({ deleted: { $ne: 1 } }, (err, users) => {
+        if (err) {
+            return res.status(404).json('An error happened and we cant return the users');
+        } else {
+            res.status(200).json(users);
+        }
+    });
+}
+
+exports.findOne = function (req, res, next) {
+    console.log('Retrieving one user');
+    User.findById(req.params.id).exec((err, user) => {
+        if (err) {
+            return res.status(404).json('An error happened and we cant return the user');
+        }
+
+        res.status(200).json(user);
+    });
+}
+
+exports.delete = function (req, res, next) {
+    User.findById(req.params.id, (err, user) => {
+        if (err) {
+            return res.status(400).json(err);
+        }
+        user.deleted = 1;
+
+        user.save((err, user) => {
+            if (err) {
+                return res.status(400).json(err);
+            }
+            return res.status(200).json('image deleted');
+        });
+    });
+}
+
+exports.update = function (req, res, next) {
+    User.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, user) => {
+        if (err) {
+            return res.status(404).json(err);
+        }
+        if (!user) {
+            return res.status(404).json('message: User not found with the id ' + req.params.id);
+        }
+        return res.status(200).json(user);
+    });
+}

@@ -1,8 +1,5 @@
-﻿exports.render = function (req, res) {
+﻿exports.initial = (req, res) => {
     res.render(
-        'index', {
-            'title': 'CityTour',
-            userFullName: req.user ? req.user.fullName : ''
-
-        });
+        'index', {}
+    );
 }

@@ -1,0 +1,62 @@
+<form style="overflow:auto;" #formCustomer="ngForm" (ngSubmit)="submitAccount()" class="form-horizontal" enctype="multipart/form-data">
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (firstName.invalid || firstName.pristine)}">
+    <label class="control-label">First Name: </label>
+    <input type="text" class="form-control" id="first_name" required
+           [(ngModel)]="account.firstName" name="firstName" #firstName="ngModel">
+  </div>
+
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (lastName.valid || lastName.pristine)}">
+    <label class="control-label">Last Name: </label>
+    <input type="text" class="form-control" id="lastName" required
+           [(ngModel)]="account.lastName" name="lastName" #lastName="ngModel">
+  </div>
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (email.valid || email.pristine || email.touched )}">
+    <label class="control-label">Email: </label>
+    <div class="input-group">
+      <span class="input-group-addon">@</span>
+      <input type="email" class="form-control" id="email" required
+             ng-pattern="/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/"
+             [(ngModel)]="account.email" name="email" #email="ngModel">
+    </div>
+  </div>
+
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (dateOfBirth.valid || dateOfBirth.pristine)}">
+    <label class="control-label">Date of Birth: </label>
+    <input type="date" class="form-control" id="dateOfBirth"
+           [(ngModel)]="account.dateOfBirth" name="dateOfBirth" #dateOfBirth="ngModel">
+  </div>
+
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (username.valid || username.pristine)}">
+    <label class="control-label">Username: </label>
+    <input type="text" class="form-control" id="username" required
+           [(ngModel)]="account.username" name="username" #username="ngModel">
+  </div>
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (password.valid || password.pristine)}">
+    <label class="control-label">Password: </label>
+    <input type="password" class="form-control" id="password" required validateEqual="confirmPassword" reverse="true"
+           [(ngModel)]="account.password" name="password" #password="ngModel">
+  </div>
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (confirmPassword.valid || confirmPassword.pristine)}">
+    <label class="control-label">Confirm Password: </label>
+    <input type="password" class="form-control" id="confirmPassword" required validateEqual="password"
+           [(ngModel)]="account.confirmPassword" name="confirmPassword" #confirmPassword="ngModel">
+  </div>
+
+  <div class="col-md-6 form-group ">
+    <div class="container">
+      <div class="row">
+        <button type="button" (click)="cancelEdit();" class="col-md-6 col-sm-6 btn btn-primary ">Close</button>
+        <button type="submit" class="col-md-6 col-sm-6 btn btn-success btn-block" [disabled]="false">Update</button>
+      </div>
+    </div>
+  </div>
+
+
+</form>

@@ -1,5 +1,11 @@
-﻿module.exports = function (app) {
-    var index = require('../controllers/index.server.controller');
+﻿var path = require('path');
 
-    app.get('/', index.render);
+module.exports = function (app) {
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve('public/index.html'));
+        // res.sendFile('public/index.html'); 
+    });
 }
+
+

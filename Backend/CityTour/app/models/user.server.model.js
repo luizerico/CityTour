@@ -12,6 +12,7 @@ const UserSchema = new Schema({
         // Validate the email format
         match: [/.+\@.+\..+/, "Please fill a valid email address"]
     },
+    dateOfBirth: Date,
     username: {
         type: String,
         // Set a unique 'username' index
@@ -47,6 +48,11 @@ const UserSchema = new Schema({
     canPublish: {
         type: Boolean,
         default: true
+    },
+    deleted: { type: Number, default: 0 },
+    status: {
+        type: Number,
+        default: 0
     }
 });
 

@@ -1,0 +1,31 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Image</th>
+      <th scope="col">Name</th>
+      <th scope="col">Location</th>
+      <th scope="col">Description</th>
+      <th scope="col">Status</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let picture of pictures">
+      <td>{{ picture._id }}</td>
+      <td><img src="/uploads/{{ picture.name }}" class="thumb" /></td>
+      <td>{{ picture.name }}</td>
+      <td>{{ picture.location }}</td>
+      <td>{{ picture.description }}</td>
+      <td><span *ngIf="picture.status == 1">Blocked</span></td>
+      <td>
+        <button class="btn btn-sm btn-info" [routerLink]="['/pictures/view/' + picture._id]">View</button>
+        <button class="btn btn-sm btn-info" [routerLink]="['/pictures/edit/' + picture._id]">Edit</button>
+        <button class="btn btn-sm btn-warning" (click)="blockPicture(picture._id);" *ngIf="picture.status != 1">Block</button>
+        <button class="btn btn-sm btn-warning" (click)="unblockPicture(picture._id);" *ngIf="picture.status == 1">Unblock</button>
+        <button class="btn btn-sm btn-danger" (click)="deletePicture(picture._id);">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+

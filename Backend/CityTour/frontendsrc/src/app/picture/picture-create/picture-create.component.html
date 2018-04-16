@@ -1,0 +1,33 @@
+
+<form style="overflow:auto;" #formPicture="ngForm" (ngSubmit)="submitPicture()" class="form-horizontal" enctype="multipart/form-data">
+
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (description.valid || description.pristine)}">
+    <label class="control-label">Description: </label>
+    <input type="text" class="form-control" id="description" required
+           [(ngModel)]="picture.description" name="description" #description="ngModel">
+  </div>
+  <div class="col-md-6 form-group has-feedback"
+       [ngClass]="{'has-failure': (location.valid || location.pristine)}">
+    <label class="control-label">Location: </label>
+    <input type="text" class="form-control" id="location" required
+           [(ngModel)]="picture.location" name="location" #location="ngModel">
+  </div>
+
+  <div class="col-md-6 form-group">
+    <label  class="control-label">Picture: </label>
+    <input type="file" size="30" placeholder="Select a picture..." name="image" multiple="multiple" class="form-control"
+           (change)="fileChangeEvent($event)">
+  </div> 
+
+  <div class="col-md-6 form-group ">
+    <div class="container">
+      <div class="row">
+        <button type="button" (click)="cancelInsert();" class="col-md-6 col-sm-6 btn btn-primary ">Close</button>
+        <button type="submit" class="col-md-6 col-sm-6 btn btn-success btn-block" [disabled]="false">Upload Picture</button>
+      </div>
+    </div>
+  </div>
+
+
+</form>

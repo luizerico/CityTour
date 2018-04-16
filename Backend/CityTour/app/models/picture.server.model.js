@@ -13,10 +13,15 @@ var PictureSchema = new Schema({
         type: Date,
         default: Date.now
     },
-    userOwner: String,
+
+    userOwner: {
+        type: Schema.ObjectId, ref: 'User'
+    },
 
     // prototype features
-    aiDescription: String
+    aiDescription: String,
+    status: Number,
+    deleted: { type: Number, default: 0}
 });
 
 // use schema to define the User model

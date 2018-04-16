@@ -7,6 +7,7 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const passport = require('passport');
 const flash = require('connect-flash');
+const path = require('path');
 
 module.exports = function () {
 
@@ -45,14 +46,23 @@ module.exports = function () {
     app.use(passport.session());    //keep track of your user's session
 
     // Load the route files
-    require('../app/routes/index.server.routes')(app);
     require('../app/routes/user.server.routes')(app);
     require('../app/routes/picture.server.routes')(app);
+    // require('../app/routes/index.server.routes')(app);
 
+
+    // Set the folder for uploaded images
+    app.use(express.static('./uploads'))
     // Configure static folder
     app.use(express.static('./public'));
     // Set Bootstrap
     app.use(express.static('./node_modules/bootstrap/dist'));
+
+
+    // Catch all other routes and return the index file
+    app.get('/', (req, res) => {
+        res.sendFile(path.join(__dirname, '../public/index.html'));
+    });
 
 
     return app;

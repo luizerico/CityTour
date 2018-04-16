@@ -1,32 +1,3 @@
-﻿<% include header %>
-<% include nav.ejs %>
-<div style="border: 1px solid #cccccc; padding: 20px; align-items:center; margin:5% 20%;">
-    <h1><%= title %></h1>
-    <h2>City Tour</h2>
-    <!-- Load the static image file  -->
-    <img src="img/logo.png" alt="Logo">
-
-    <!-- If a user is authenticated, display the user's full name , otherwise display the authentication links -->
-    <% if ( userFullName ) { %>
-    <h2>Hello <%=userFullName%> </h2>
-    <a href="/signout">Sign out</a>
-    <% } else { %>
-
-    <div class="container">
-        <table>
-            <tr>
-                <!-- Render the OAuth authentication links  -->
-                <td><a href="/signup">Sign Up</a></td>
-            </tr>
-            <tr>
-                <td><a href="/signin">Sign In</a></td>
-            </tr>
-
-        </table>
-    </div>
-
-    <% } %>
-    <br>
-
-</div>
-<% include footer.ejs %>
+<nav>
+   INDEX
+</nav>
