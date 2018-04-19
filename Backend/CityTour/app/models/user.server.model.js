@@ -2,6 +2,9 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 const Schema = mongoose.Schema;
+const jwt = require('jsonwebtoken');
+
+const config = require('../../config/config');
 
 // Define a new 'UserSchema'
 const UserSchema = new Schema({
@@ -40,20 +43,11 @@ const UserSchema = new Schema({
     },
     providerId: String,
     providerData: {},
-    created: {
-        type: Date,
-        // Create a default 'created' value
-        default: Date.now
-    },
-    canPublish: {
-        type: Boolean,
-        default: true
-    },
+    created: Date,
+    updated: { type: Date, default: Date.now },
+    canPublish: { type: Boolean,  default: true  },
     deleted: { type: Number, default: 0 },
-    status: {
-        type: Number,
-        default: 0
-    }
+    status: {  type: Number, default: 0 }
 });
 
 // Set the 'fullname' virtual property
@@ -114,6 +108,16 @@ UserSchema.set('toJSON', {
     getters: true,
     virtuals: true
 });
+
+// Generates the token for the web authentication. The userID is stored inside the token
+// and can be recovered to be used in the authorization code.
+// *** The expiration data need to be verified and a refresh function implemented.
+UserSchema.methods.generateJWT = function () {
+    return jwt.sign({
+        _id: this._id,
+        username: this.username,
+    }, config.secretJWT, { expiresIn: '2h' });
+}
 
 // Create the 'User' model out of the 'UserSchema'
 mongoose.model('User', UserSchema);

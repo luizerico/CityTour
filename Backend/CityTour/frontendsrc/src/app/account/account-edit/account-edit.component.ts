@@ -43,12 +43,12 @@ export class AccountEditComponent implements OnInit {
         //this.cancelForm();
       });
 
-    this._router.navigateByUrl('users');
+    this._router.navigateByUrl('accounts');
 
   }
 
   cancelEdit() {
-    this._router.navigateByUrl('users')
+    this._router.navigateByUrl('accounts')
   }
 
 }

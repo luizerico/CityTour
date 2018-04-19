@@ -78,10 +78,10 @@ var AccountEditComponent = /** @class */ (function () {
             _this.account = new account_1.Account(1, '', '', '', '', '', '', '');
             //this.cancelForm();
         });
-        this._router.navigateByUrl('users');
+        this._router.navigateByUrl('accounts');
     };
     AccountEditComponent.prototype.cancelEdit = function () {
-        this._router.navigateByUrl('users');
+        this._router.navigateByUrl('accounts');
     };
     AccountEditComponent = __decorate([
         core_1.Component({
@@ -463,7 +463,7 @@ module.exports = ""
 /***/ "./src/app/account/signin/signin.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  signin works!\n</p>\n"
+module.exports = "<div class=\"row h-100 justify-content-center align-items-center\" style=\"margin:0;\">\r\n  <div class=\"\" style=\"min-width:310px;\">\r\n    <div class=\"login jumbotron center-block\">\r\n      <h1 class=\"text-center\">\r\n        <img style=\"max-width:300px; margin-bottom: 20px;\" src=\"assets/img/citytour.jpg\" alt=\"Logo\" />\r\n      </h1>\r\n      <form role=\"form\" (submit)=\"signin($event, username.value, password.value)\">\r\n        <div class=\"form-group\">\r\n          <label for=\"username\">Username</label>\r\n          <input type=\"text\" #username class=\"form-control\" id=\"username\" placeholder=\"Username\">\r\n        </div>\r\n        <div class=\"form-group\">\r\n          <label for=\"password\">Password</label>\r\n          <input type=\"password\" #password class=\"form-control\" id=\"password\" placeholder=\"Password\">\r\n        </div>\r\n        <div class=\"text-right\">\r\n          <button type=\"submit\" class=\"btn btn-default\">Submit</button>\r\n\r\n        </div>\r\n      </form>\r\n      <div class=\"container\">\r\n        <p class=\"text-center\" style=\"padding-top: 20px;\">\r\n          <a [routerLink]=\"['/signup']\">Dont have an account? <br />Click here to Signup</a>\r\n        </p>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -483,10 +483,31 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var http_1 = __webpack_require__("./node_modules/@angular/http/esm5/http.js");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var SigninComponent = /** @class */ (function () {
-    function SigninComponent() {
+    function SigninComponent(_router, _http) {
+        this._router = _router;
+        this._http = _http;
     }
-    SigninComponent.prototype.ngOnInit = function () {
+    SigninComponent.prototype.ngOnInit = function () { };
+    SigninComponent.prototype.signin = function (event, username, password) {
+        var _this = this;
+        event.preventDefault();
+        // Stringify function works on django/rest but not for Express.
+        // let body = JSON.stringify({ username, password });
+        // console.log(body);
+        this._http.post('/api/v1/authenticate/', { username: username, password: password })
+            .subscribe(function (response) {
+            console.log(response.json().token);
+            sessionStorage.setItem('token', 'Bearer ' + response.json().token);
+            localStorage.setItem('token', response.json().token);
+            // content_headers.set('Authorization', sessionStorage.getItem('token'));
+            _this._router.navigate(['/']);
+        }, function (error) {
+            _this._router.navigate(['/signin']);
+            console.log(error.toString());
+        });
     };
     SigninComponent = __decorate([
         core_1.Component({
@@ -494,7 +515,8 @@ var SigninComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/account/signin/signin.component.html"),
             styles: [__webpack_require__("./src/app/account/signin/signin.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [router_1.Router,
+            http_1.Http])
     ], SigninComponent);
     return SigninComponent;
 }());
@@ -513,7 +535,7 @@ module.exports = ""
 /***/ "./src/app/account/signup/signup.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  signup works!\n</p>\n"
+module.exports = "<form style=\"overflow:auto;\" #formCustomer=\"ngForm\" (ngSubmit)=\"submitAccount()\" class=\"form-horizontal\" enctype=\"multipart/form-data\">\r\n  <div class=\"col-md-6 form-group has-feedback\"\r\n       [ngClass]=\"{'has-failure': (firstName.invalid || firstName.pristine)}\">\r\n    <label class=\"control-label\">First Name: </label>\r\n    <input type=\"text\" class=\"form-control\" id=\"first_name\" required\r\n           [(ngModel)]=\"model.firstName\" name=\"firstName\" #firstName=\"ngModel\">\r\n  </div>\r\n  <div class=\"col-md-6 form-group has-feedback\"\r\n       [ngClass]=\"{'has-failure': (lastName.valid || lastName.pristine)}\">\r\n    <label class=\"control-label\">Last Name: </label>\r\n    <input type=\"text\" class=\"form-control\" id=\"lastName\" required\r\n           [(ngModel)]=\"model.lastName\" name=\"lastName\" #lastName=\"ngModel\">\r\n  </div>\r\n  <div class=\"col-md-6 form-group has-feedback\"\r\n       [ngClass]=\"{'has-failure': (email.valid || email.pristine || email.touched )}\">\r\n    <label class=\"control-label\">Email: </label>\r\n    <div class=\"input-group\">\r\n      <span class=\"input-group-addon\">@</span>\r\n      <input type=\"email\" class=\"form-control\" id=\"email\" required\r\n             ng-pattern=\"/^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$/\"\r\n             [(ngModel)]=\"model.email\" name=\"email\" #email=\"ngModel\">\r\n    </div>\r\n  </div>\r\n  <div class=\"col-md-6 form-group has-feedback\"\r\n       [ngClass]=\"{'has-failure': (dateOfBirth.valid || dateOfBirth.pristine)}\">\r\n    <label class=\"control-label\">Date of Birth: </label>\r\n    <input type=\"date\" class=\"form-control\" id=\"dateOfBirth\"\r\n           [(ngModel)]=\"model.dateOfBirth\" name=\"dateOfBirth\" #dateOfBirth=\"ngModel\">\r\n  </div>\r\n  <div class=\"col-md-6 form-group has-feedback\"\r\n       [ngClass]=\"{'has-failure': (username.valid || username.pristine)}\">\r\n    <label class=\"control-label\">Username: </label>\r\n    <input type=\"text\" class=\"form-control\" id=\"username\" required\r\n           [(ngModel)]=\"model.username\" name=\"username\" #username=\"ngModel\">\r\n  </div>\r\n  <div class=\"col-md-6 form-group has-feedback\"\r\n       [ngClass]=\"{'has-failure': (password.valid || password.pristine)}\">\r\n    <label class=\"control-label\">Password: </label>\r\n    <input type=\"password\" class=\"form-control\" id=\"password\" required validateEqual=\"confirmPassword\" reverse=\"true\"\r\n           [(ngModel)]=\"model.password\" name=\"password\" #password=\"ngModel\">\r\n  </div>\r\n  <div class=\"col-md-6 form-group has-feedback\"\r\n       [ngClass]=\"{'has-failure': (confirmPassword.valid || confirmPassword.pristine)}\">\r\n    <label class=\"control-label\">Confirm Password: </label>\r\n    <input type=\"password\" class=\"form-control\" id=\"confirmPassword\" required validateEqual=\"password\"\r\n           [(ngModel)]=\"model.confirmPassword\" name=\"confirmPassword\" #confirmPassword=\"ngModel\">\r\n  </div>\r\n\r\n  <div class=\"col-md-6 form-group \">\r\n    <div class=\"container\">\r\n      <div class=\"row\">\r\n        <button type=\"button\" (click)=\"cancelForm();\" class=\"col-md-6 col-sm-6 btn btn-primary \">Close</button>\r\n        <button type=\"submit\" class=\"col-md-6 col-sm-6  btn btn-success\" [disabled]=\"false\">Add</button>\r\n        <button *ngIf=\"editing\" type=\"submit\" class=\"col-md-6 col-sm-6 btn btn-success btn-block\" [disabled]=\"false\">Update</button>\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n\r\n</form>\r\n\r\n\r\n"
 
 /***/ }),
 
@@ -533,10 +555,39 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var account_service_1 = __webpack_require__("./src/app/account/account.service.ts");
+var account_1 = __webpack_require__("./src/app/account/account.ts");
+var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var SignupComponent = /** @class */ (function () {
-    function SignupComponent() {
+    function SignupComponent(_accountService, _router) {
+        this._accountService = _accountService;
+        this._router = _router;
+        this.model = new account_1.Account(1, '', '', '', '', '', '', '');
+        this.editing = false;
     }
-    SignupComponent.prototype.ngOnInit = function () {
+    SignupComponent.prototype.ngOnInit = function () { };
+    SignupComponent.prototype.ngOnChanges = function () {
+    };
+    SignupComponent.prototype.submitAccount = function () {
+        var _this = this;
+        var accountOperation;
+        console.log(this.model);
+        if (!this.editing) {
+            accountOperation = this._accountService.addAccount(this.model);
+        }
+        else {
+            accountOperation = this._accountService.updateAccount(this.model);
+        }
+        accountOperation.subscribe(function (accounts) {
+            // EmitterService.get(this.listId).emit(accounts);
+            _this.model = new account_1.Account(1, '', '', '', '', '', '', '');
+            _this.editing = false;
+            //this.cancelForm();
+        }, function (error) {
+            _this._router.navigate(['/signup']);
+            console.log(error.toString());
+        });
+        this._router.navigateByUrl('signin');
     };
     SignupComponent = __decorate([
         core_1.Component({
@@ -544,7 +595,7 @@ var SignupComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/account/signup/signup.component.html"),
             styles: [__webpack_require__("./src/app/account/signup/signup.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [account_service_1.AccountService, router_1.Router])
     ], SignupComponent);
     return SignupComponent;
 }());
@@ -810,14 +861,14 @@ exports.HeaderComponent = HeaderComponent;
 /***/ "./src/app/core/home/home.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = "@font-face {\r\n  font-family: 'Calluna';\r\n  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/callunasansregular-webfont.woff') format('woff');\r\n}\r\n\r\n.masonry {\r\n  margin: 1.5em 0;\r\n  padding: 0;\r\n  -webkit-column-gap: 1.5em;\r\n  column-gap: 1.5em;\r\n  -webkit-column-fill: auto;\r\n          column-fill: auto;\r\n\r\n  font-size: .85em;\r\n}\r\n\r\n.item {\r\n  display: inline-block;\r\n  background: #fff;\r\n  padding: 1em;\r\n  margin: 0 0 1.5em;\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  -webkit-box-shadow: 2px 2px 4px 0 #ccc;\r\n          box-shadow: 2px 2px 4px 0 #ccc;\r\n}\r\n\r\n.item img {\r\n    -webkit-transition: all .5s ease-in-out;\r\n    transition: all .5s ease-in-out;\r\n    width: 100%;\r\n    vertical-align: bottom;\r\n    opacity: .6;\r\n  }\r\n\r\n.item img:hover {\r\n      -webkit-transition: all .5s ease-in-out;\r\n      transition: all .5s ease-in-out;\r\n      opacity: 1;\r\n    }\r\n\r\n@media only screen and (min-width: 400px) {\r\n  .masonry {\r\n    -webkit-column-count: 2;\r\n    column-count: 2;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 700px) {\r\n  .masonry {\r\n    -webkit-column-count: 3;\r\n    column-count: 3;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 900px) {\r\n  .masonry {\r\n    -webkit-column-count: 4;\r\n    column-count: 4;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 1100px) {\r\n  .masonry {\r\n    -webkit-column-count: 5;\r\n    column-count: 5;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 1280px) {\r\n  .wrapper {\r\n    width: 1260px;\r\n  }\r\n}\r\n"
 
 /***/ }),
 
 /***/ "./src/app/core/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p>\n  home works!\n</p>\n"
+module.exports = "\r\n\r\n<div class=\"masonry\">\r\n  <div class=\"item\" *ngFor=\"let picture of pictures\">\r\n      <img src=\"/uploads/{{ picture.name }}\">\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -837,11 +888,17 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
+var picture_service_1 = __webpack_require__("./src/app/picture/picture.service.ts");
 var HomeComponent = /** @class */ (function () {
-    function HomeComponent() {
+    function HomeComponent(_pictureService) {
+        this._pictureService = _pictureService;
     }
     HomeComponent.prototype.ngOnInit = function () {
-        console.log("home");
+        this.loadPictures();
+    };
+    HomeComponent.prototype.loadPictures = function () {
+        var _this = this;
+        this._pictureService.getAllPictures().subscribe(function (pictures) { return _this.pictures = pictures; }, function (err) { return console.log(err); });
     };
     HomeComponent = __decorate([
         core_1.Component({
@@ -849,7 +906,7 @@ var HomeComponent = /** @class */ (function () {
             template: __webpack_require__("./src/app/core/home/home.component.html"),
             styles: [__webpack_require__("./src/app/core/home/home.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [picture_service_1.PictureService])
     ], HomeComponent);
     return HomeComponent;
 }());
@@ -868,7 +925,7 @@ module.exports = ""
 /***/ "./src/app/core/navbar/navbar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<script>\r\n  $(document).ready(function () {\r\n    $('.dropdown-toggle').dropdown();\r\n  });\r\n</script>\r\n\r\n<nav *ngIf=\"isUserLogged();\" class=\"navbar navbar-expand-lg navbar-light no-print\" style=\"background-color: #64926b;\">\r\n  <a class=\"navbar-brand\" href=\"#\">CityTour</a>\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n\r\n  <div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\">\r\n    <ul class=\"navbar-nav mr-auto\">\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/accounts/']\" class=\"nav-link\">Users</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/pictures/']\" class=\"nav-link\">Pictures</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/map/']\" class=\"nav-link\">Map</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/accounts']\" class=\"nav-link\">Profile</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" (click)=\"signout();\" href=\"#\">Signout</a>\r\n      </li>\r\n    </ul>\r\n    <form class=\"form-inline my-2 my-lg-0\">\r\n      <input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\">\r\n      <button class=\"btn btn-outline-default my-2 my-sm-0\" type=\"submit\">Search Pictures</button>\r\n    </form>\r\n\r\n  </div>\r\n</nav>\r\n"
+module.exports = "<script>\r\n  $(document).ready(function () {\r\n    $('.dropdown-toggle').dropdown();\r\n  });\r\n</script>\r\n\r\n<nav *ngIf=\"isUserLogged();\" class=\"navbar navbar-expand-lg navbar-light no-print\" style=\"background-color: #d8d4d4;\">\r\n  <a class=\"navbar-brand col-md-4\" href=\"#\">CityTour</a>\r\n  <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\"#navbarSupportedContent\" aria-controls=\"navbarSupportedContent\" aria-expanded=\"false\" aria-label=\"Toggle navigation\">\r\n    <span class=\"navbar-toggler-icon\"></span>\r\n  </button>\r\n  \r\n\r\n  <div class=\"collapse navbar-collapse col-md-8 \" id=\"navbarSupportedContent\">\r\n    <form class=\"form-inline my-2 my-lg-0 col-md-6\">\r\n      <input class=\"form-control form-control-sm\" #search id=\"search\" type=\"search\" placeholder=\"Search Pictures\" aria-label=\"Search\" keyup.enter=\"search(thise)\">\r\n    </form>\r\n\r\n    <ul class=\"navbar-nav mr-auto right col-md-6\">\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/pictures/create']\" class=\"btn btn-sm btn-info nav-link\">Add a Picture</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/map/']\" class=\"nav-link\">Map</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/accounts/']\" class=\"nav-link\">Users</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/pictures/']\" class=\"nav-link\">Pictures</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a [routerLink]=\"['/accounts']\" class=\"nav-link\">Profile</a>\r\n      </li>\r\n      <li class=\"nav-item\">\r\n        <a class=\"nav-link\" (click)=\"signout();\" href=\"#\">Signout</a>\r\n      </li>\r\n    </ul>\r\n\r\n\r\n  </div>\r\n</nav>\r\n"
 
 /***/ }),
 
@@ -890,26 +947,30 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var core_1 = __webpack_require__("./node_modules/@angular/core/esm5/core.js");
 var router_1 = __webpack_require__("./node_modules/@angular/router/esm5/router.js");
 var NavbarComponent = /** @class */ (function () {
-    function NavbarComponent(router) {
-        this.router = router;
+    function NavbarComponent(_router) {
+        this._router = _router;
     }
     NavbarComponent.prototype.ngOnInit = function () {
+    };
+    NavbarComponent.prototype.search = function (search) {
+        search.preventDefault();
+        console.log("Searching : ", search.value);
     };
     NavbarComponent.prototype.signout = function () {
         if (confirm('You will be logout. Are you sure?')) {
             localStorage.removeItem('token');
             sessionStorage.clear();
-            // this.router.navigate(['/login']);
-            this.router.navigateByUrl('signin');
+            // this._router.navigate(['/login']);
+            this._router.navigateByUrl('signin');
         }
     };
     NavbarComponent.prototype.isUserLogged = function () {
-        return true;
-        /*if (localStorage.getItem("token")) {
-          return true;
-        } else {
-          return false;
-        }*/
+        if (localStorage.getItem("token")) {
+            return true;
+        }
+        else {
+            return false;
+        }
     };
     NavbarComponent = __decorate([
         core_1.Component({
@@ -1461,9 +1522,9 @@ var PictureService = /** @class */ (function () {
         console.log('Inserting new picture');
         console.log(body);
         var custom_content_headers = new http_1.Headers();
-        content_headers_1.content_headers.append('Content-Type', 'undefined');
+        // custom_content_headers.append('Content-Type', 'undefined');
         // contentHeaders.append('Authorization', localStorage.getItem('token'));
-        content_headers_1.content_headers.append('Authorization', sessionStorage.getItem('token'));
+        custom_content_headers.append('Authorization', sessionStorage.getItem('token'));
         return this._http.post(this.base_url, body, { headers: custom_content_headers })
             .map(function (res) { return res.json(); })
             .catch(function (error) { return Observable_1.Observable.throw(error.json().error || 'Server error inserting a new picture'); });

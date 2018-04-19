@@ -32,9 +32,9 @@ export class PictureService {
     console.log(body);
 
     let custom_content_headers = new Headers();
-    content_headers.append('Content-Type', 'undefined');
+    // custom_content_headers.append('Content-Type', 'undefined');
     // contentHeaders.append('Authorization', localStorage.getItem('token'));
-    content_headers.append('Authorization', sessionStorage.getItem('token'));
+    custom_content_headers.append('Authorization', sessionStorage.getItem('token'));
 
     return this._http.post(this.base_url, body, { headers: custom_content_headers })
       .map((res: Response) => res.json())

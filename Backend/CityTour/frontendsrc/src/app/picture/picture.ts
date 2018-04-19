@@ -8,5 +8,6 @@ export class Picture {
     public longitude: string,
     public userOwner: string,
     public aiDescription: string
+
   ) { }
 }

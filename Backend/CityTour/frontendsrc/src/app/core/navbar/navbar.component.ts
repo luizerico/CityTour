@@ -9,9 +9,14 @@ import { Router } from '@angular/router'
 export class NavbarComponent implements OnInit {
 
 
-  constructor(private router: Router) { }
+  constructor(private _router: Router) { }
 
   ngOnInit() {
+  }
+
+  search(search) {
+    search.preventDefault();
+    console.log("Searching : ", search.value);
   }
 
 
@@ -19,18 +24,17 @@ export class NavbarComponent implements OnInit {
     if (confirm('You will be logout. Are you sure?')) {
       localStorage.removeItem('token');
       sessionStorage.clear();
-      // this.router.navigate(['/login']);
-      this.router.navigateByUrl('signin');
+      // this._router.navigate(['/login']);
+      this._router.navigateByUrl('signin'); 
     }
   }
 
   isUserLogged() {
-    return true;
-    /*if (localStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
       return true;
     } else {
       return false;
-    }*/
+    }
   }
 
 }

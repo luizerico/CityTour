@@ -12,7 +12,7 @@ exports.list = (req, res, next) => {
     });
 }
 
-exports.findOne = function (req, res, next) {
+exports.findOne = (req, res, next) => {
     console.log('Retrieving one image: ', req.params.id);
     Picture.findById(req.params.id).exec((err, picture) => {
         if (err) {
@@ -23,7 +23,7 @@ exports.findOne = function (req, res, next) {
     });
 }
 
-exports.create = function (req, res, next) {
+exports.create = (req, res, next) => {
     if (!req.picture) {
         var picture = new Picture(req.body);
     } 
@@ -37,7 +37,7 @@ exports.create = function (req, res, next) {
     });
 }
 
-exports.insert = function (req, res, next) {
+exports.insert = (req, res, next) => {
     console.log("Saving a picture...");
     console.log(req.body);
 
@@ -54,7 +54,7 @@ exports.insert = function (req, res, next) {
         picture.userOwner = req.body.userOwner;
         picture.location = req.body.location;
 
-        picture.save(function (err) {
+        picture.save((err) => {
             console.log('Saving: ', picture);
             if (err) {
                 return next(err);
@@ -64,7 +64,7 @@ exports.insert = function (req, res, next) {
     });
 }
 
-exports.delete = function (req, res, next) {
+exports.delete = (req, res, next) => {
     Picture.findById(req.params.id, (err, picture) => {
         if (err) {
             return res.status(400).json(err);
@@ -80,7 +80,7 @@ exports.delete = function (req, res, next) {
     });
 }
 
-exports.update = function (req, res, next) {
+exports.update = (req, res, next) => {
     console.log('updating...')
     console.log(req.body);
     Picture.findByIdAndUpdate(req.params.id, req.body, { new: true }, (err, picture) => {

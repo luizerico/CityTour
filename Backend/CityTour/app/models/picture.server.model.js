@@ -9,14 +9,9 @@ var PictureSchema = new Schema({
     location: String,
     lattitude: String,
     longitude: String,
-    dateCreated: {
-        type: Date,
-        default: Date.now
-    },
-
-    userOwner: {
-        type: Schema.ObjectId, ref: 'User'
-    },
+    created: Date,
+    updated: { type: Date, default: Date.now },
+    userOwner: { type: Schema.ObjectId, ref: 'User' },
 
     // prototype features
     aiDescription: String,

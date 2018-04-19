@@ -1,10 +1,11 @@
-﻿// Picture routes
+﻿const picture = require('../controllers/picture.server.controller');
+const jwt = require('express-jwt');
+const multer = require('multer');
+const config = require('../../config/config');
 
 module.exports = function (app) {
-    var picture = require('../controllers/picture.server.controller');
 
-    // Set multer middleware to save the file
-    var multer = require('multer');
+    // Set multer middleware to save the file    
     var storage = multer.diskStorage({
         filename: function (req, file, cb) {
             cb(null, Date.now() + '_' + file.originalname)
@@ -32,12 +33,12 @@ module.exports = function (app) {
 
     // Api Routes for the pictures model
     app.route('/api/v1/pictures')
-        .get(picture.list)
-        .post(uploading.any(), picture.insert);
+        .get(jwt({ secret: config.secretJWT }), picture.list)
+        .post(jwt({ secret: config.secretJWT }), uploading.any(), picture.insert);
     app.route('/api/v1/pictures/:id')
-        .get(picture.findOne)
-        .put(picture.update)
-        .delete(picture.delete);
+        .get(jwt({ secret: config.secretJWT }), picture.findOne)
+        .put(jwt({ secret: config.secretJWT }), picture.update)
+        .delete(jwt({ secret: config.secretJWT }), picture.delete);
     app.route('/api/v1/pictures/delete/:id')
-        .put(picture.update);
+        .put(jwt({ secret: config.secretJWT }), picture.update);
 }

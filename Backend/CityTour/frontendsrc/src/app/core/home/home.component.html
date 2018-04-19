@@ -1,3 +1,7 @@
-<p>
-  home works!
-</p>
+
+
+<div class="masonry">
+  <div class="item" *ngFor="let picture of pictures">
+      <img src="/uploads/{{ picture.name }}">
+  </div>
+</div>

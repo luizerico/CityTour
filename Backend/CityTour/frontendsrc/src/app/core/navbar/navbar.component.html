@@ -4,22 +4,30 @@
   });
 </script>
 
-<nav *ngIf="isUserLogged();" class="navbar navbar-expand-lg navbar-light no-print" style="background-color: #64926b;">
-  <a class="navbar-brand" href="#">CityTour</a>
+<nav *ngIf="isUserLogged();" class="navbar navbar-expand-lg navbar-light no-print" style="background-color: #d8d4d4;">
+  <a class="navbar-brand col-md-4" href="#">CityTour</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
+  
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+  <div class="collapse navbar-collapse col-md-8 " id="navbarSupportedContent">
+    <form class="form-inline my-2 my-lg-0 col-md-6">
+      <input class="form-control form-control-sm" #search id="search" type="search" placeholder="Search Pictures" aria-label="Search" keyup.enter="search(thise)">
+    </form>
+
+    <ul class="navbar-nav mr-auto right col-md-6">
+      <li class="nav-item">
+        <a [routerLink]="['/pictures/create']" class="btn btn-sm btn-info nav-link">Add a Picture</a>
+      </li>
+      <li class="nav-item">
+        <a [routerLink]="['/map/']" class="nav-link">Map</a>
+      </li>
       <li class="nav-item">
         <a [routerLink]="['/accounts/']" class="nav-link">Users</a>
       </li>
       <li class="nav-item">
         <a [routerLink]="['/pictures/']" class="nav-link">Pictures</a>
-      </li>
-      <li class="nav-item">
-        <a [routerLink]="['/map/']" class="nav-link">Map</a>
       </li>
       <li class="nav-item">
         <a [routerLink]="['/accounts']" class="nav-link">Profile</a>
@@ -28,10 +36,7 @@
         <a class="nav-link" (click)="signout();" href="#">Signout</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-      <button class="btn btn-outline-default my-2 my-sm-0" type="submit">Search Pictures</button>
-    </form>
+
 
   </div>
 </nav>
