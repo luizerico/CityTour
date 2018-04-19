@@ -1,7 +1,9 @@
 
-
-<div class="masonry">
-  <div class="item" *ngFor="let picture of pictures">
-      <img src="/uploads/{{ picture.name }}">
+<div class="wrapper">
+  <div class="masonry">
+    <div class="item" *ngFor="let picture of pictures">
+      <img src="/uploads/{{ picture.name }}" [routerLink]="['/pictures/view/' + picture._id]">
+      <figcaption><em>{{ picture.location }}</em><br />{{ picture.description }}</figcaption>
+    </div>
   </div>
 </div>

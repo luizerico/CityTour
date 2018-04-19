@@ -1,4 +1,14 @@
-<p *ngIf="picture">
-  {{picture.name}} <br />
-  <img src="/uploads/{{ picture.name }}" class="viewimage" />
-</p>
+<div class="wrapper">
+  <div class="viewbox">
+    <p *ngIf="picture">
+      <img src="/uploads/{{ picture.name }}" class="viewimage" />
+
+    </p>
+    <figcaption>
+      <em>
+        {{picture.location}}</em> <br />
+        {{picture.description}}
+        <a class="btn " [routerLink]="['/pictures/edit/' + picture._id]">Edit</a>
+      </figcaption>
+  </div>
+</div>

@@ -861,14 +861,14 @@ exports.HeaderComponent = HeaderComponent;
 /***/ "./src/app/core/home/home.component.css":
 /***/ (function(module, exports) {
 
-module.exports = "@font-face {\r\n  font-family: 'Calluna';\r\n  src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/4273/callunasansregular-webfont.woff') format('woff');\r\n}\r\n\r\n.masonry {\r\n  margin: 1.5em 0;\r\n  padding: 0;\r\n  -webkit-column-gap: 1.5em;\r\n  column-gap: 1.5em;\r\n  -webkit-column-fill: auto;\r\n          column-fill: auto;\r\n\r\n  font-size: .85em;\r\n}\r\n\r\n.item {\r\n  display: inline-block;\r\n  background: #fff;\r\n  padding: 1em;\r\n  margin: 0 0 1.5em;\r\n  width: 100%;\r\n  box-sizing: border-box;\r\n  -moz-box-sizing: border-box;\r\n  -webkit-box-sizing: border-box;\r\n  -webkit-box-shadow: 2px 2px 4px 0 #ccc;\r\n          box-shadow: 2px 2px 4px 0 #ccc;\r\n}\r\n\r\n.item img {\r\n    -webkit-transition: all .5s ease-in-out;\r\n    transition: all .5s ease-in-out;\r\n    width: 100%;\r\n    vertical-align: bottom;\r\n    opacity: .6;\r\n  }\r\n\r\n.item img:hover {\r\n      -webkit-transition: all .5s ease-in-out;\r\n      transition: all .5s ease-in-out;\r\n      opacity: 1;\r\n    }\r\n\r\n@media only screen and (min-width: 400px) {\r\n  .masonry {\r\n    -webkit-column-count: 2;\r\n    column-count: 2;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 700px) {\r\n  .masonry {\r\n    -webkit-column-count: 3;\r\n    column-count: 3;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 900px) {\r\n  .masonry {\r\n    -webkit-column-count: 4;\r\n    column-count: 4;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 1100px) {\r\n  .masonry {\r\n    -webkit-column-count: 5;\r\n    column-count: 5;\r\n  }\r\n}\r\n\r\n@media only screen and (min-width: 1280px) {\r\n  .wrapper {\r\n    width: 1260px;\r\n  }\r\n}\r\n"
+module.exports = "\r\n"
 
 /***/ }),
 
 /***/ "./src/app/core/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "\r\n\r\n<div class=\"masonry\">\r\n  <div class=\"item\" *ngFor=\"let picture of pictures\">\r\n      <img src=\"/uploads/{{ picture.name }}\">\r\n  </div>\r\n</div>\r\n"
+module.exports = "\r\n<div class=\"wrapper\">\r\n  <div class=\"masonry\">\r\n    <div class=\"item\" *ngFor=\"let picture of pictures\">\r\n      <img src=\"/uploads/{{ picture.name }}\" [routerLink]=\"['/pictures/view/' + picture._id]\">\r\n      <figcaption><em>{{ picture.location }}</em><br />{{ picture.description }}</figcaption>\r\n    </div>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -1307,7 +1307,7 @@ exports.PictureEditComponent = PictureEditComponent;
 /***/ "./src/app/picture/picture-list/picture-list.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".thumb {\r\n  max-width: 150px;\r\n  max-height: 150px;\r\n  width:auto;\r\n}\r\n"
+module.exports = ""
 
 /***/ }),
 
@@ -1380,14 +1380,14 @@ exports.PictureListComponent = PictureListComponent;
 /***/ "./src/app/picture/picture-view/picture-view.component.css":
 /***/ (function(module, exports) {
 
-module.exports = ".viewimage{\r\n  max-width: 100%;\r\n}\r\n"
+module.exports = "\r\n"
 
 /***/ }),
 
 /***/ "./src/app/picture/picture-view/picture-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<p *ngIf=\"picture\">\r\n  {{picture.name}} <br />\r\n  <img src=\"/uploads/{{ picture.name }}\" class=\"viewimage\" />\r\n</p>\n"
+module.exports = "<div class=\"wrapper\">\r\n  <div class=\"viewbox\">\r\n    <p *ngIf=\"picture\">\r\n      <img src=\"/uploads/{{ picture.name }}\" class=\"viewimage\" />\r\n\r\n    </p>\r\n    <figcaption>\r\n      <em>\r\n        {{picture.location}}</em> <br />\r\n        {{picture.description}}\r\n        <a class=\"btn \" [routerLink]=\"['/pictures/edit/' + picture._id]\">Edit</a>\r\n      </figcaption>\r\n  </div>\r\n</div>\r\n"
 
 /***/ }),
 
