@@ -1,3 +1,96 @@
-<p>
-  profile works!
-</p>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Select a picture for your profile</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form style="overflow:auto;" #formCustomer="ngForm" (ngSubmit)="updateProfilePicture()" class="form-horizontal" enctype="multipart/form-data">
+      <div class="form-group">
+        <input type="file" size="30" placeholder="Select a picture..." name="image" multiple="multiple" class="form-control"
+               (change)="fileChangeEvent($event)">
+      </div>
+      <div class="form-group ">
+        <div class="row mx-0">
+          <div class="col-md-6 col-sm-6">
+            <button type="button" (click)="modalRef.hide()" class="btn btn-primary btn-block">Cancel</button>
+          </div>
+          <div class="col-md-6 col-sm-6">
+            <button type="submit" class="btn btn-success btn-block" [disabled]="false">Update</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+
+<div class="row mx-0 my-0">
+  <div class="col-md-3">
+    <div class="container profile-box" style="padding: 20px 10px; ">
+      <div class="text-center">
+        <img src="uploads/{{ account.profilePicture }}" class="profile-picture" (click)="openModal(template)" style="width: 100%;" />
+        <p>
+          {{ account.firstName }} {{ account.lastName }}<br />
+        </p>
+      </div>
+      <div class="form-group mx-3 my-0">
+        <div class=" my-2">
+          <span (click)="editProfile()" class="btn btn-sm btn-outline-info btn-block">Edit Profile</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-9 mx-0 my-0">
+    <div>
+      <div class="  center">
+        <div class="shadow-box mx-auto my-4" >
+          <div style="border-bottom: 1px solid #ccc; margin-bottom: 20px; padding-bottom:20px;">
+            <div class="">
+              <div id="name">
+                <h1>{{ account.firstName }} {{ account.lastName }} </h1>
+              </div>
+              <div id="detail">
+                <div>
+                  <label class="col-md-4">Username: </label>
+                  <span class="col-md-8">{{ account.username }}</span>
+                </div>
+                <div>
+                  <label class="col-md-4">Email: </label>
+                  <span class="col-md-8">{{ account.email }}</span>
+                </div>               
+                <div>
+                  <label class="col-md-4">Birthdate: </label>
+                  <span class="col-md-8">{{ account.dateOfBirth | date:'longDate' }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="row" style="width:100%;">
+              <div class="profile-icon col-md-4 col-sm-4">
+                <i class="fa fa-camera"></i>
+                <h1>21</h1>
+                <p>Pictures</p>
+              </div>
+
+              <div class="profile-icon col-md-4 col-sm-4">
+                <i class="fa fa-map"></i>
+                <h1>2</h1>
+                <p>Locations</p>
+              </div>
+
+              <div class="profile-icon col-md-4 col-sm-4">
+                <i class="fa fa-minus"></i>
+                <h1>1</h1>
+                <p>Blocked Pictures</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

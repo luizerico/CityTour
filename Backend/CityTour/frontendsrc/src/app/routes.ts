@@ -10,24 +10,31 @@ import { PictureCreateComponent } from './picture/picture-create/picture-create.
 import { AccountEditComponent } from './account/account-edit/account-edit.component';
 import { AccountViewComponent } from './account/account-view/account-view.component';
 import { MapViewComponent } from './map/map-view/map-view.component';
+import { IndexComponent } from './index/index.component';
+
+import { AuthGuard } from './core/auth-guard';
+import { ProfileComponent } from './account/profile/profile.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent },
+  { path: '', component: IndexComponent },
+  {
+    path: 'home', canActivate: [AuthGuard], component: HomeComponent },
 
   // Account Routes
   { path: 'signin', component: SigninComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'accounts', component: AccountListComponent },
-  { path: 'account/edit/:id', component: AccountEditComponent },
-  { path: 'account/view/:id', component: AccountViewComponent },
+  { path: 'accounts', canActivate: [AuthGuard], component: AccountListComponent },
+  { path: 'account-edit/:id', canActivate: [AuthGuard], component: AccountEditComponent },
+  { path: 'account-view/:id', canActivate: [AuthGuard], component: AccountViewComponent },
+  { path: 'profile', canActivate: [AuthGuard], component: ProfileComponent },
 
   // Picture Routes
-  { path: 'pictures', component: PictureListComponent },
-  { path: 'pictures/create', component: PictureCreateComponent },
-  { path: 'pictures/edit/:id', component: PictureEditComponent },
-  { path: 'pictures/view/:id', component: PictureViewComponent },
+  { path: 'pictures', canActivate: [AuthGuard], component: PictureListComponent },
+  { path: 'pictures/create', canActivate: [AuthGuard], component: PictureCreateComponent },
+  { path: 'pictures/edit/:id', canActivate: [AuthGuard], component: PictureEditComponent },
+  { path: 'pictures/view/:id', canActivate: [AuthGuard], component: PictureViewComponent },
 
   // Picture Routes
-  { path: 'map', component: MapViewComponent },
+  { path: 'map', canActivate: [AuthGuard], component: MapViewComponent },
 
 ]

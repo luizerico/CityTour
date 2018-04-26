@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+import { TabsModule } from 'ngx-bootstrap';
+import { ModalModule } from 'ngx-bootstrap';
+
 import { SigninComponent } from './signin/signin.component';
 import { SignupComponent } from './signup/signup.component';
 import { ProfileComponent } from './profile/profile.component';
@@ -14,7 +18,9 @@ import { AccountViewComponent } from './account-view/account-view.component';
   imports: [
     CommonModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    TabsModule.forRoot(),
+    ModalModule.forRoot(),
   ],
   exports: [
     SigninComponent,

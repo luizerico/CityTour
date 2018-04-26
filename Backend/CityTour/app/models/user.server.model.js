@@ -33,6 +33,8 @@ const UserSchema = new Schema({
             'Password should be longer'
         ]
     },
+
+    profilePicture: String,
     salt: {
         type: String
     },
@@ -115,7 +117,7 @@ UserSchema.set('toJSON', {
 UserSchema.methods.generateJWT = function () {
     return jwt.sign({
         _id: this._id,
-        username: this.username,
+        data: this.username,
     }, config.secretJWT, { expiresIn: '2h' });
 }
 

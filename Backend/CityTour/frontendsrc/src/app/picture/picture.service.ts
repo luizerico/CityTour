@@ -14,8 +14,14 @@ export class PictureService {
 
   constructor(private _http: Http) { }
 
-  getAllPictures(): Observable<Picture[]> {
+  adminGetAllPictures(): Observable<Picture[]> {
     return this._http.get(this.base_url, { headers: content_headers })
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error retrieving pictures'));
+  }
+
+  getAllPictures(searchable: string): Observable<Picture[]> {
+    return this._http.get(this.base_url + 'search/' + searchable, { headers: content_headers })
       .map((res: Response) => res.json())
       .catch((error: any) => Observable.throw(error.json().error || 'Server error retrieving pictures'));
   }

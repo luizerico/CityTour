@@ -4,8 +4,8 @@ export class Picture {
     public path: string,
     public description: string,
     public location: string,
-    public lattitude: string,
-    public longitude: string,
+    public lat: string,
+    public lng: string,
     public userOwner: string,
     public aiDescription: string
 

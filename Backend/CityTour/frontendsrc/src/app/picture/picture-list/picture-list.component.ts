@@ -21,7 +21,7 @@ export class PictureListComponent implements OnInit {
   }
 
   loadPictures() {
-    this._pictureService.getAllPictures().subscribe(
+    this._pictureService.adminGetAllPictures().subscribe(
       pictures => this.pictures = pictures,
       (err) => console.log(err)
     );

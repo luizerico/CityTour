@@ -32,7 +32,9 @@ module.exports = function (app) {
 
 
     // Api Routes for the pictures model
-    app.route('/api/v1/pictures')
+    app.route('/api/v1/pictures/')
+        .get(jwt({ secret: config.secretJWT }), picture.listAll);
+    app.route('/api/v1/pictures/search/:searchable')
         .get(jwt({ secret: config.secretJWT }), picture.list)
         .post(jwt({ secret: config.secretJWT }), uploading.any(), picture.insert);
     app.route('/api/v1/pictures/:id')

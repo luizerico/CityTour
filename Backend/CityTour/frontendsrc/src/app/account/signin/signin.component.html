@@ -1,10 +1,15 @@
-<div class="row h-100 justify-content-center align-items-center" style="margin:0;">
-  <div class="" style="min-width:310px;">
-    <div class="login jumbotron center-block">
+
+
+<div class="row h-100 justify-content-center align-items-center " style="margin: 80px 10px;">
+  <div class="shadow-box" style="min-width:310px;">
+    <div class="login center-block">
       <h1 class="text-center">
-        <img style="max-width:300px; margin-bottom: 20px;" src="assets/img/citytour.jpg" alt="Logo" />
+        <img style="max-width:300px; margin-bottom: 20px;" src="./uploads/logo_citytour.png" alt="Logo" />
       </h1>
       <form role="form" (submit)="signin($event, username.value, password.value)">
+        <div *ngIf="message" class="text-center alert alert-danger" role="alert">
+          {{message}}
+        </div>
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" #username class="form-control" id="username" placeholder="Username">
@@ -18,11 +23,6 @@
 
         </div>
       </form>
-      <div class="container">
-        <p class="text-center" style="padding-top: 20px;">
-          <a [routerLink]="['/signup']">Dont have an account? <br />Click here to Signup</a>
-        </p>
-      </div>
     </div>
   </div>
 </div>

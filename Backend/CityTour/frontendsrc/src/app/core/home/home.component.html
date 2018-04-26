@@ -1,7 +1,18 @@
 
+
+<nav *ngIf="isUserLogged()" class="navbar navbar-expand-lg navbar-light no-print" style="background-color: #d8d4d4;">
+
+  <div class=" " style="display:table; margin:auto; text-align: center;" id="searchbar">
+    <form class="form-inline">
+      <input class="form-control form-control-sm" [(ngModel)]="vsearch" #search name="mvsearch" placeholder="Search Pictures" aria-label="Search" (keyup.enter)="fsearch();" />
+      <button class="btn btn-info btn-sm right" (click)="fsearch();">Search</button>
+    </form>
+  </div>
+</nav>
+
 <div class="wrapper">
   <div class="masonry">
-    <div class="item" *ngFor="let picture of pictures">
+    <div class="item" *ngFor="let picture of pictures" >
       <img src="/uploads/{{ picture.name }}" [routerLink]="['/pictures/view/' + picture._id]">
       <figcaption><em>{{ picture.location }}</em><br />{{ picture.description }}</figcaption>
     </div>

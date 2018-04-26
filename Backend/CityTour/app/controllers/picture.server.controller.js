@@ -1,15 +1,45 @@
-﻿var Picture = require('mongoose').model('Picture');
+﻿const Picture = require('mongoose').model('Picture');
+const config = require('../../config/config');
+const jwt = require('jsonwebtoken');
+
+exports.listAll = (req, res, next) => {
+    console.log("Listing pictures...");
+    Picture
+        .find({})
+        .populate('userOwner')
+        .exec((err, pictures) => {
+
+            if (err) {
+                return next(err);
+            } else {
+                res.status(200).json(pictures);
+            }
+        });
+}
 
 exports.list = (req, res, next) => {
     console.log("Listing pictures...");
+    req.params.searchable == 'undefined' ? searchword = '' : searchword = req.params.searchable;
+    let regularExpression = new RegExp('.*' + searchword + '.*');
 
-    Picture.find({ deleted: { $ne : 1 }}, (err, pictures) => {
-        if (err) {
-            return next(err);
-        } else {
-            res.status(200).json(pictures);
-        }
-    });
+    Picture
+        .find({
+            $or: [
+                { description: { $regex: regularExpression, $options: 'i' } },
+                { location: { $regex: regularExpression, $options: 'i' } }
+            ]
+        })
+        .where({ deleted: { $ne: 1 } })
+        .where({ status: { $ne: 1 } })
+        .populate('userOwner')
+        .exec((err, pictures) => {
+
+            if (err) {
+                return next(err);
+            } else {
+                res.status(200).json(pictures);
+            }
+        });
 }
 
 exports.findOne = (req, res, next) => {
@@ -18,7 +48,7 @@ exports.findOne = (req, res, next) => {
         if (err) {
             return res.status(404).json('An error happened and we cant return the picture');
         }
-
+        console.log('picture',picture);
         res.status(200).json(picture);
     });
 }
@@ -27,6 +57,8 @@ exports.create = (req, res, next) => {
     if (!req.picture) {
         var picture = new Picture(req.body);
     } 
+
+    console.log(req.picture);
 
     picture.save((err) => {
         if (err) {
@@ -41,7 +73,7 @@ exports.insert = (req, res, next) => {
     console.log("Saving a picture...");
     console.log(req.body);
 
-    console.log(req.files);  
+    console.log(req.user);  
 
     // Iteract through the array of files using map
     // And save each image as a register on the database
@@ -50,9 +82,13 @@ exports.insert = (req, res, next) => {
         let picture = new Picture();
         picture.path= file.destination;
         picture.name= file.filename;
-        picture.description= req.body.description;
-        picture.userOwner = req.body.userOwner;
+        picture.description = req.body.description;
+
+        // Get the user Id stored inside the token
+        picture.userOwner = jwt.verify(req.headers.authorization.replace('Bearer ', ''), config.secretJWT);
         picture.location = req.body.location;
+        picture.lat = req.body.lat;
+        picture.lng = req.body.lng;
 
         picture.save((err) => {
             console.log('Saving: ', picture);
@@ -93,3 +129,14 @@ exports.update = (req, res, next) => {
         return res.status(200).json(picture);
     });
 }
+
+//The hasAuthorization() middleware uses the req.course and req.user objects
+//to verify that the current user is the creator of the current course
+exports.hasAuthorization = function (req, res, next) {
+    if (req.picture.userOwner.id !== req.user.id) {
+        return res.status(403).json({
+            message: 'Account is not authorized'
+        });
+    }
+    next();
+};

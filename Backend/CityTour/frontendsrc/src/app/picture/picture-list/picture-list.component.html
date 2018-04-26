@@ -1,7 +1,7 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th scope="col">ID</th>
+      <!--<th scope="col">ID</th>-->
       <th scope="col">Image</th>
       <th scope="col">Name</th>
       <th scope="col">Location</th>
@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let picture of pictures">
-      <td>{{ picture._id }}</td>
+      <!--<td>{{ picture._id }}</td>-->
       <td><img src="/uploads/{{ picture.name }}" class="thumb" /></td>
       <td>{{ picture.name }}</td>
       <td>{{ picture.location }}</td>

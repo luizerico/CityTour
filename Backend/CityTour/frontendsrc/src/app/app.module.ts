@@ -9,11 +9,14 @@ import { AccountModule } from './account/account.module';
 import { RouterModule } from '@angular/router';
 import { PictureModule } from './picture/picture.module';
 import { MapModule } from './map/map.module';
+import { IndexComponent } from './index/index.component';
+import { AuthGuard } from './core/auth-guard';
 
 
 @NgModule({
-  declarations: [
-    AppComponent, 
+  declarations: [ 
+    AppComponent,
+    IndexComponent, 
   ],
   imports: [
     BrowserModule,
@@ -30,7 +33,9 @@ import { MapModule } from './map/map.module';
   exports: [
     RouterModule
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

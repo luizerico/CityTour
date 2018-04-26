@@ -14,16 +14,31 @@ export class PictureCreateComponent implements OnInit {
 
   picture = new Picture('', '', '', '', '', '', '', '');
   filesToUpload: Array<File> = [];
+  pos: any;
 
   editing = false;
 
   constructor(private _pictureService: PictureService, private _router: Router) { }
 
   ngOnInit() {
-
+    this.getLocation();
   }
 
   ngOnChanges() {
+  }
+
+
+  getLocation() {
+    navigator.geolocation.getCurrentPosition((position) => {
+      this.pos = {
+        lat: position.coords.latitude,
+        lng: position.coords.longitude
+      };
+      console.log(this.pos.lat  );
+    }, () => {
+      // Browser doesn't support Geolocation
+      console.log("Unable to use geoLocation");
+    });
   }
 
   submitPicture() {
@@ -38,7 +53,8 @@ export class PictureCreateComponent implements OnInit {
 
     formData.append('location', this.picture.location);
     formData.append('description', this.picture.description);
-    formData.append('userOwner', '5aaa98ab3f5ad04c648c20da');
+    formData.append('lat', this.pos.lat);
+    formData.append('lng', this.pos.lng);
 
     this._pictureService.createPicture(formData)
       .subscribe(pictures => {

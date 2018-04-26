@@ -44,6 +44,21 @@ export class AccountService {
       .catch((error: any) => Observable.throw(error.json().error || 'Server error : addAccount'));
   }
 
+  // Change in the future for a generic function instead to have two for update
+  // It was done due to difficult to extract the if from the body composed by a formaData
+  updateProfilePicture(body: Object, id: string): Observable<Account[]> {
+    console.log(body);
+
+    let custom_content_headers = new Headers();
+    // custom_content_headers.append('Content-Type', 'undefined');
+    // contentHeaders.append('Authorization', localStorage.getItem('token'));
+    custom_content_headers.append('Authorization', sessionStorage.getItem('token'));
+
+    return this._http.put(`${this.account_url_api}${id}/`, body, { headers: custom_content_headers })
+      .map((res: Response) => res.json())
+      .catch((error: any) => Observable.throw(error.json().error || 'Server error : updateAccount'));
+  }
+
   updateAccount(body: Object): Observable<Account[]> {
     // Wont use a separator slash due to django issues
     console.log(body);

@@ -5,20 +5,22 @@
 </script>
 
 <nav *ngIf="isUserLogged();" class="navbar navbar-expand-lg navbar-light no-print" style="background-color: #d8d4d4;">
-  <a class="navbar-brand col-md-4" href="#">CityTour</a>
+  <a class="navbar-brand col-md-4" [routerLink]="['/home']">
+    <img style="max-width:150px; margin:0;" src="./uploads/logo_citytour.png" alt="Logo" />
+  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   
 
-  <div class="collapse navbar-collapse col-md-8 " id="navbarSupportedContent">
+  <div class="collapse navbar-collapse col-md-6 " id="navbarSupportedContent" >
     <form class="form-inline my-2 my-lg-0 col-md-6">
-      <input class="form-control form-control-sm" #search id="search" type="search" placeholder="Search Pictures" aria-label="Search" keyup.enter="search(thise)">
+      <!--<input class="form-control form-control-sm" #search id="search" type="search" placeholder="Search Pictures" aria-label="Search" keyup.enter="search(thise)">-->
     </form>
 
-    <ul class="navbar-nav mr-auto right col-md-6">
+    <ul class="navbar-nav mr-auto right col-md-8">
       <li class="nav-item">
-        <a [routerLink]="['/pictures/create']" class="btn btn-sm btn-info nav-link">Add a Picture</a>
+        <a [routerLink]="['/pictures/create']" class="btn btn-outilined-info nav-link">Add a Picture</a>
       </li>
       <li class="nav-item">
         <a [routerLink]="['/map/']" class="nav-link">Map</a>
@@ -30,10 +32,10 @@
         <a [routerLink]="['/pictures/']" class="nav-link">Pictures</a>
       </li>
       <li class="nav-item">
-        <a [routerLink]="['/accounts']" class="nav-link">Profile</a>
+        <a [routerLink]="['/profile']" class="nav-link">Profile</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" (click)="signout();" href="#">Signout</a>
+        <span class="nav-link" (click)="signout();">Signout</span>
       </li>
     </ul>
 

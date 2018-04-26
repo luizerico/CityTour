@@ -12,7 +12,10 @@ export class PictureViewComponent implements OnInit {
   picture: any;
 
   constructor(private _pictureService: PictureService, private _route: ActivatedRoute) {
-    this._route.params.subscribe(params => this.loadPicture(params['id']));
+    this._route.params.subscribe(params => {
+      this.loadPicture(params['id']);
+      console.log(params['id']);
+    });
   }
 
   ngOnInit() {
@@ -24,6 +27,7 @@ export class PictureViewComponent implements OnInit {
         picture => this.picture = picture,
         err => console.log(err)
     );
+    console.log(this.picture);
   }
 
 }

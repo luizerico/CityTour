@@ -7,8 +7,9 @@ var PictureSchema = new Schema({
     path: String,
     description: String,
     location: String,
-    lattitude: String,
-    longitude: String,
+    lat: String,
+    lng: String,
+
     created: Date,
     updated: { type: Date, default: Date.now },
     userOwner: { type: Schema.ObjectId, ref: 'User' },
